@@ -1,48 +1,54 @@
-<img align="left" src="images/galah.png" width="210px">
+███╗   ███╗██╗███╗   ███╗██╗ ██████╗ ██╗   ██╗███████╗
+████╗ ████║██║████╗ ████║██║██╔═══██╗██║   ██║██╔════╝
+██╔████╔██║██║██╔████╔██║██║██║   ██║██║   ██║█████╗  
+██║╚██╔╝██║██║██║╚██╔╝██║██║██║▄▄ ██║██║   ██║██╔══╝  
+██║ ╚═╝ ██║██║██║ ╚═╝ ██║██║╚██████╔╝╚██████╔╝███████╗
+╚═╝     ╚═╝╚═╝╚═╝     ╚═╝╚═╝ ╚══▀▀═╝  ╚═════╝ ╚══════╝
+                                                      
+MimiQue - AI/ML Honey Pot/Client
 
-TL;DR: Galah (/ɡəˈlɑː/ - pronounced ‘guh-laa’) is an LLM (Large Language Model) powered web honeypot, currently compatible with the OpenAI API, that is able to mimic various applications and dynamically respond to arbitrary HTTP requests.
+
+This currently only scans http incoming requests. While that is something that is helpful a few places, I beleive that we can design methods to capture more actors with more ease.
 
 ## Description
 
-Named after the clever Australian parrot known for its mimicry, Galah mirrors this trait in its functionality. Unlike traditional web honeypots that rely on a manual and limiting method of emulating numerous web applications or vulnerabilities, Galah adopts a novel approach. This LLM-powered honeypot mimics various web applications by dynamically crafting relevant (and occasionally foolish) responses, including HTTP headers and body content, to arbitrary HTTP requests. Fun fact: in Aussie English, [Galah](https://www.macquariedictionary.com.au/blog/article/728/) also means fool!
+Unlike traditional web honeypots that rely on a manual and limiting method of emulating numerous web applications or vulnerabilities, This LLM-powered honeypot mimics various web applications by dynamically crafting relevant (and occasionally foolish) responses, including HTTP headers and body content, to arbitrary HTTP requests. 
 
-I’ve deployed a cache for the LLM-generated responses (the cache duration can be customized in the config file) to avoid generating multiple responses for the same request and to reduce the cost of the OpenAI API. The cache stores responses per port, meaning if you probe a specific port of the honeypot, the generated response won’t be returned for the same request on a different port.
+I’ve deployed a cache for the LLM-generated responses (the cache duration can be customized in the config file) to avoid generating multiple responses for the same request and to reduce the cost of generation. The cache stores responses per port, meaning if you probe a specific port of the honeypot, the generated response won’t be returned for the same request on a different port.
 
 The prompt is the most crucial part of this honeypot! You can update the prompt in the config file, but be sure not to change the part that instructs the LLM to generate the response in the specified JSON format.
 
-> **Note:** Galah was a fun weekend project I created to evaluate the capabilities of LLMs in generating HTTP messages, and it is not intended for production use. The honeypot may be fingerprinted based on its response time, non-standard, or sometimes weird responses, and other network-based techniques. Use this tool at your own risk, and be sure to set usage limits for your OpenAI API.
 
 ### Future Enhancements
 
-- Rule-Based Response: The new version of Galah will employ a dynamic, rule-based approach, adding more control over response generation. This will further reduce OpenAI API costs and increase the accuracy of the generated responses.
+- Rule-Based Response: employ a dynamic, rule-based approach, adding more control over response generation.
 
-- Response Database: It will enable you to generate and import a response database. This ensures the honeypot only turns to the OpenAI API for unknown or new requests. I’m also working on cleaning up and sharing my own database.
-
-- Support for Other LLMs.
+- Custom HoneyLLM, trained on actual signature data, employ active ML through Honeyclient.
 
 ## Getting Started
 
-- Ensure you have Go version 1.20+ installed.
-- Create an OpenAI API key from [here](https://platform.openai.com/api-keys).
-- If you want to serve over HTTPS, generate TLS certificates.
-- Clone the repo and install the dependencies.
+- Install Go 1.20+
+- Implement AI API
+- Set up TLS certificate
 - Update the `config.yaml` file.
 - Build and run the Go binary!
 
 ```
-% git clone git@github.com:0x4D31/galah.git
-% cd galah
+% git clone git@github.com:SanderShark/PotGen.git
+% cd PotGen
 % go mod download
 % go build  
-% ./galah -i en0 -v
+% ./PotGen -i en0 -v
 
- ██████   █████  ██       █████  ██   ██ 
-██       ██   ██ ██      ██   ██ ██   ██ 
-██   ███ ███████ ██      ███████ ███████ 
-██    ██ ██   ██ ██      ██   ██ ██   ██ 
- ██████  ██   ██ ███████ ██   ██ ██   ██ 
-  llm-based web honeypot // version 1.0
-       author: Adel "0x4D31" Karimi
+███╗   ███╗██╗███╗   ███╗██╗ ██████╗ ██╗   ██╗███████╗
+████╗ ████║██║████╗ ████║██║██╔═══██╗██║   ██║██╔════╝
+██╔████╔██║██║██╔████╔██║██║██║   ██║██║   ██║█████╗  
+██║╚██╔╝██║██║██║╚██╔╝██║██║██║▄▄ ██║██║   ██║██╔══╝  
+██║ ╚═╝ ██║██║██║ ╚═╝ ██║██║╚██████╔╝╚██████╔╝███████╗
+╚═╝     ╚═╝╚═╝╚═╝     ╚═╝╚═╝ ╚══▀▀═╝  ╚═════╝ ╚══════╝
+                                                                                                           
+ 	       Change Code: SanderShark
+      Core Code: Adel "0x4D31" Karimi
 
 2024/01/01 04:29:10 Starting HTTP server on port 8080
 2024/01/01 04:29:10 Starting HTTP server on port 8888
@@ -115,5 +121,3 @@ JSON log record:
 ```
 {"timestamp":"2024-01-01T05:51:40.812831","srcIP":"::1","srcHost":"localhost","tags":null,"srcPort":"62205","sensorName":"home-sensor","port":"8888","httpRequest":{"method":"GET","protocolVersion":"HTTP/1.1","request":"/i-mean-are-you-a-fake-server","userAgent":"curl/7.71.1","headers":"User-Agent: [curl/7.71.1], Accept: [*/*]","headersSorted":"Accept,User-Agent","headersSortedSha256":"cf69e186169279bd51769f29d122b07f1f9b7e51bf119c340b66fbd2a1128bc9","body":"","bodySha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},"httpResponse":{"headers":{"Connection":"close","Content-Type":"text/plain","Server":"LocalHost/1.0"},"body":"No, I am not a fake server."}}
 ```
-
-You're a galah, mate!
