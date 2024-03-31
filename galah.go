@@ -20,7 +20,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/0x4d31/galah/enrich"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/sync/errgroup"
 )
