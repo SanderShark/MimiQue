@@ -1,3 +1,5 @@
+// this file currently operates using the OpenAI ChatGPT model through the git repo in the imports, I want to make this more generic and have added functionality
+
 package main
 
 import (
