@@ -34,11 +34,11 @@ The prompt is the most crucial part of this honeypot! You can update the prompt 
 - Build and run the Go binary!
 
 ```
-% git clone git@github.com:SanderShark/PotGen.git
-% cd PotGen
+% git clone git@github.com:SanderShark/MimiQue.git
+% cd MimiQue
 % go mod download
 % go build  
-% ./PotGen -i en0 -v
+% ./MimiQue -i en0 -v
 
 ███╗   ███╗██╗███╗   ███╗██╗ ██████╗ ██╗   ██╗███████╗
 ████╗ ████║██║████╗ ████║██║██╔═══██╗██║   ██║██╔════╝
